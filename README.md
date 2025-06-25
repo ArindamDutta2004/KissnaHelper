@@ -126,7 +126,7 @@ npm run dev:all
 4. Generate a service account key for admin SDK
 5. Add the Firebase configuration to your environment variables
 
-##Video
+## Video
 
 Our Project Process -
 https://youtu.be/jgmv_rJe-og
