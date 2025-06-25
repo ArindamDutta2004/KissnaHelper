@@ -130,21 +130,5 @@ npm run dev:all
 
 This project is licensed under the MIT License.
 
-
-Home page-
-![image](https://github.com/user-attachments/assets/da9cf941-e456-4c7d-81ad-7339b83d4ae8)
-
-Features Page-
-![image](https://github.com/user-attachments/assets/893d359e-9089-423a-ae8d-348c793f2cc0)
-![image](https://github.com/user-attachments/assets/45e08ae7-3d06-46a5-8535-1f5d19977819)
-![image](https://github.com/user-attachments/assets/2482d8a0-96f5-455e-9173-fcbda6ea2ced)
-
-User Interface-
-![image](https://github.com/user-attachments/assets/27dea545-0e47-484c-8800-45c9d6bbd88c)
-![image](https://github.com/user-attachments/assets/0a39e3f4-4cb2-4442-b3e9-a135e468d6e3)
-
-User Plans-
-![image](https://github.com/user-attachments/assets/2e1d4ae6-beef-4edc-9a33-9491cdf4c517)
-
-Plan Payment Gateway-
-![image](https://github.com/user-attachments/assets/87a582ae-ffe3-4311-b0d7-ac5753251017)
+Our Project Process -
+https://youtu.be/jgmv_rJe-og
