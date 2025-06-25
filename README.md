@@ -39,7 +39,7 @@ Kissan Helper is a comprehensive digital platform designed to assist Indian farm
 
 1. Clone the repository
 
-[git clone https://github.com/yourusername/kissan-helper.git](https://github.com/aridutta2004/KissanHelper)
+[https://github.com/aridutta2004/KissanHelper]
 cd kissan-helper
 
 
