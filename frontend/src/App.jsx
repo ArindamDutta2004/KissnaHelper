@@ -9,7 +9,7 @@ import {
 } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { Suspense, lazy } from "react";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast  } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 // Components
