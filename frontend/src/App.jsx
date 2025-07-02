@@ -1,5 +1,5 @@
 // App.jsx
-import React from "react";
+import React, { Suspense, lazy } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -8,8 +8,8 @@ import {
   useLocation,
 } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
-import { Suspense, lazy } from "react";
-import { ToastContainer, toast  } from "react-toastify";
+import { ToastContainer } from "react-toastify";
+import { Analytics } from "@vercel/analytics/react"; // ✅ Vercel Analytics
 import "react-toastify/dist/ReactToastify.css";
 
 // Components
@@ -119,16 +119,11 @@ function AppRoutes() {
     <AnimatePresence mode="wait">
       <Suspense fallback={<LoadingScreen />}>
         <ErrorBoundary>
-          {/* Conditional Navbar */}
           {!isAdminRoute && !isUserRoute && <Navbar />}
 
-          {/* Main content */}
           <main className={!isAdminRoute && !isUserRoute ? "pt-[10px]" : ""}>
             <Routes location={location} key={location.pathname}>
-              {/* Redirect Root */}
               <Route path="/" element={<Navigate to="/home" replace />} />
-
-              {/* Public Routes */}
               <Route path="/home" element={<Home />} />
               <Route path="/about" element={<About />} />
               <Route path="/learn" element={<Learn />} />
@@ -157,7 +152,6 @@ function AppRoutes() {
                 <Route path="notifications" element={<Notifications />} />
               </Route>
 
-              {/* Notifications */}
               <Route path="/notifications" element={<NotificationList />} />
 
               {/* User Routes */}
@@ -194,7 +188,6 @@ function AppRoutes() {
             </Routes>
           </main>
 
-          {/* Conditional Footer */}
           {!isAdminRoute && !isUserRoute && <Footer />}
         </ErrorBoundary>
       </Suspense>
@@ -208,6 +201,7 @@ export default function App() {
     <Router>
       <AppRoutes />
       <ToastContainer position="top-center" autoClose={3000} />
+      <Analytics /> {/* ✅ Injected Vercel Analytics */}
     </Router>
   );
 }
