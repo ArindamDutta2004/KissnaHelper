@@ -60,7 +60,7 @@ import { Users, Target, Eye, Sprout } from "lucide-react";
 import us from "../assets/us.jpg";
 export default function About() {
   const [farmersHelped, setFarmersHelped] = useState(0);
-  const targetFarmers = 50000;
+  const targetFarmers = 0;
   const controls = useAnimation();
   const [ref, inView] = useInView({
     triggerOnce: true,
@@ -205,18 +205,18 @@ export default function About() {
             <div>
               <Users className="h-12 w-12 mx-auto text-white mb-4" />
               <div className="text-4xl font-bold mb-2">
-                {farmersHelped.toLocaleString()}+
+                {farmersHelped.toLocaleString()}
               </div>
               <p className="text-gray-200">Farmers Helped</p>
             </div>
             <div>
               <Target className="h-12 w-12 mx-auto text-white mb-4" />
-              <div className="text-4xl font-bold mb-2">24+</div>
+              <div className="text-4xl font-bold mb-2">0</div>
               <p className="text-gray-200">States Covered</p>
             </div>
             <div>
               <Sprout className="h-12 w-12 mx-auto text-white mb-4" />
-              <div className="text-4xl font-bold mb-2">100+</div>
+              <div className="text-4xl font-bold mb-2">0+</div>
               <p className="text-gray-200">Expert Advisors</p>
             </div>
           </div>
