@@ -1,224 +1,233 @@
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Send, Users, Clock, AlertTriangle, CheckCircle, X } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { 
+  BarChart, 
+  Bar, 
+  XAxis, 
+  YAxis, 
+  CartesianGrid, 
+  Tooltip, 
+  Legend, 
+  ResponsiveContainer,
+  LineChart,
+  Line,
+  PieChart,
+  Pie,
+  Cell
+} from 'recharts';
+import { 
+  Users, 
+  CreditCard, 
+  TrendingUp, 
+  Calendar, 
+  ArrowUpRight, 
+  ArrowDownRight 
+} from 'lucide-react';
 
-export default function AdminBroadcast() {
-  const [message, setMessage] = useState('');
-  const [title, setTitle] = useState('');
-  const [selectedAudience, setSelectedAudience] = useState('all');
-  const [priority, setPriority] = useState('normal');
-  const [showSuccess, setShowSuccess] = useState(false);
-  const [recentBroadcasts, setRecentBroadcasts] = useState([
-    {
-      id: 1,
-      title: "System Maintenance",
-      message: "The system will be under maintenance tonight from 2 AM to 4 AM.",
-      audience: "all",
-      priority: "high",
-      timestamp: "2024-03-20T14:30:00",
-      deliveredTo: 1250
-    },
-    {
-      id: 2,
-      title: "New Feature Alert",
-      message: "Check out our new crop analysis tool!",
-      audience: "premium",
-      priority: "normal",
-      timestamp: "2024-03-19T11:15:00",
-      deliveredTo: 850
-    }
-  ]);
+// Sample data for charts
+const userActivityData = [
+  { name: 'Jan', users: 400 },
+  { name: 'Feb', users: 300 },
+  { name: 'Mar', users: 600 },
+  { name: 'Apr', users: 800 },
+  { name: 'May', users: 700 },
+  { name: 'Jun', users: 900 },
+  { name: 'Jul', users: 1000 },
+];
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    
-    // Add the new broadcast to the list
-    const newBroadcast = {
-      id: Date.now(),
-      title,
-      message,
-      audience: selectedAudience,
-      priority,
-      timestamp: new Date().toISOString(),
-      deliveredTo: Math.floor(Math.random() * 1000) + 500 // Simulated delivery count
-    };
-    
-    setRecentBroadcasts([newBroadcast, ...recentBroadcasts]);
-    
-    // Show success message
-    setShowSuccess(true);
-    setTimeout(() => setShowSuccess(false), 3000);
-    
-    // Reset form
-    setMessage('');
-    setTitle('');
-    setSelectedAudience('all');
-    setPriority('normal');
-  };
+const revenueData = [
+  { name: 'Jan', revenue: 4000 },
+  { name: 'Feb', revenue: 3000 },
+  { name: 'Mar', revenue: 5000 },
+  { name: 'Apr', revenue: 8000 },
+  { name: 'May', revenue: 7000 },
+  { name: 'Jun', revenue: 9000 },
+  { name: 'Jul', revenue: 10000 },
+];
+
+const planDistributionData = [
+  { name: 'Basic', value: 400 },
+  { name: 'Premium', value: 300 },
+  { name: 'Enterprise', value: 150 },
+];
+
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28'];
+
+export default function AdminDashboard() {
+  const [stats, setStats] = useState({
+    totalUsers: 0,
+    activeUsers: 0,
+    totalRevenue: 0,
+    monthlyRevenue: 0
+  });
+
+  useEffect(() => {
+    // In a real app, you would fetch this data from your API
+    // For now, we'll use mock data
+    setStats({
+      totalUsers: 0,
+      activeUsers: 0,
+      totalRevenue: 0,
+      monthlyRevenue: 0
+    });
+  }, []);
+
+  const StatCard = ({ title, value, icon, change, isPositive }) => (
+    <div className="bg-gray-900 rounded-xl p-6 border border-gray-800">
+      <div className="flex justify-between items-start mb-4">
+        <div>
+          <p className="text-gray-400 text-sm">{title}</p>
+          <h3 className="text-2xl font-bold text-white mt-1">{value}</h3>
+        </div>
+        <div className="p-3 bg-gray-800 rounded-lg">
+          {icon}
+        </div>
+      </div>
+      {change && (
+        <div className="flex items-center gap-1">
+          {isPositive ? (
+            <ArrowUpRight className="w-4 h-4 text-green-500" />
+          ) : (
+            <ArrowDownRight className="w-4 h-4 text-red-500" />
+          )}
+          <span className={isPositive ? "text-green-500" : "text-red-500"}>
+            {change}
+          </span>
+          <span className="text-gray-400 text-sm">vs last month</span>
+        </div>
+      )}
+    </div>
+  );
 
   return (
-    <div className="text-white">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold">Broadcast Messages</h1>
-        <p className="text-gray-400 mt-1">Send announcements to your users</p>
+    <div className="space-y-8">
+      <div>
+        <h1 className="text-3xl font-bold text-white mb-2">Dashboard</h1>
+        <p className="text-gray-400">Welcome to the Kissan Helper admin dashboard</p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Broadcast Form */}
-        <div className="lg:col-span-2">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-gray-900 rounded-xl border border-gray-800 p-6"
-          >
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">
-                  Message Title
-                </label>
-                <input
-                  type="text"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:border-green-500 focus:ring-green-500"
-                  placeholder="Enter broadcast title"
-                  required
-                />
-              </div>
+      {/* Stats Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <StatCard 
+          title="Total Users" 
+          value={stats.totalUsers.toLocaleString()} 
+          icon={<Users className="w-6 h-6 text-blue-500" />}
+          change="12.5%"
+          isPositive={true}
+        />
+        <StatCard 
+          title="Active Users" 
+          value={stats.activeUsers.toLocaleString()} 
+          icon={<Users className="w-6 h-6 text-green-500" />}
+          change="8.2%"
+          isPositive={true}
+        />
+        <StatCard 
+          title="Total Revenue" 
+          value={`₹${stats.totalRevenue.toLocaleString()}`} 
+          icon={<CreditCard className="w-6 h-6 text-purple-500" />}
+          change="15.3%"
+          isPositive={true}
+        />
+        <StatCard 
+          title="Monthly Revenue" 
+          value={`₹${stats.monthlyRevenue.toLocaleString()}`} 
+          icon={<TrendingUp className="w-6 h-6 text-yellow-500" />}
+          change="2.8%"
+          isPositive={false}
+        />
+      </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">
-                  Message Content
-                </label>
-                <textarea
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  rows={4}
-                  className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:border-green-500 focus:ring-green-500"
-                  placeholder="Type your broadcast message..."
-                  required
-                />
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-1">
-                    Target Audience
-                  </label>
-                  <select
-                    value={selectedAudience}
-                    onChange={(e) => setSelectedAudience(e.target.value)}
-                    className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:border-green-500 focus:ring-green-500"
-                  >
-                    <option value="all">All Users</option>
-                    <option value="premium">Premium Users</option>
-                    <option value="free">Free Users</option>
-                    <option value="inactive">Inactive Users</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-1">
-                    Priority Level
-                  </label>
-                  <select
-                    value={priority}
-                    onChange={(e) => setPriority(e.target.value)}
-                    className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:border-green-500 focus:ring-green-500"
-                  >
-                    <option value="normal">Normal</option>
-                    <option value="high">High Priority</option>
-                    <option value="urgent">Urgent</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="flex justify-end">
-                <button
-                  type="submit"
-                  className="px-6 py-2 bg-green-500 text-black rounded-lg font-medium hover:bg-green-600 transition-colors flex items-center gap-2"
-                >
-                  <Send className="w-4 h-4" />
-                  Send Broadcast
-                </button>
-              </div>
-            </form>
-          </motion.div>
-
-          {/* Success Message */}
-          <AnimatePresence>
-            {showSuccess && (
-              <motion.div
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                className="fixed top-4 right-4 bg-green-500 text-black px-6 py-3 rounded-lg shadow-lg flex items-center gap-2"
-              >
-                <CheckCircle className="w-5 h-5" />
-                Broadcast sent successfully!
-              </motion.div>
-            )}
-          </AnimatePresence>
+      {/* Charts */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* User Activity Chart */}
+        <div className="bg-gray-900 rounded-xl p-6 border border-gray-800">
+          <h3 className="text-xl font-semibold text-white mb-6">User Activity</h3>
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart data={userActivityData}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+              <XAxis dataKey="name" stroke="#9CA3AF" />
+              <YAxis stroke="#9CA3AF" />
+              <Tooltip 
+                contentStyle={{ backgroundColor: '#1F2937', borderColor: '#374151', borderRadius: '0.5rem' }}
+                itemStyle={{ color: '#F9FAFB' }}
+                labelStyle={{ color: '#F9FAFB' }}
+              />
+              <Legend />
+              <Bar dataKey="users" fill="#10B981" radius={[4, 4, 0, 0]} />
+            </BarChart>
+          </ResponsiveContainer>
         </div>
 
-        {/* Stats and Info */}
-        <div className="space-y-6">
-          <div className="bg-gray-900 rounded-xl border border-gray-800 p-6">
-            <h3 className="text-lg font-semibold mb-4">Broadcast Stats</h3>
-            <div className="space-y-4">
-              <div className="flex items-center justify-between p-4 bg-gray-800 rounded-lg">
-                <div className="flex items-center gap-3">
-                  <Users className="w-5 h-5 text-blue-500" />
-                  <span className="text-gray-300">Total Recipients</span>
-                </div>
-                <span className="text-white font-medium">2,547</span>
-              </div>
-              <div className="flex items-center justify-between p-4 bg-gray-800 rounded-lg">
-                <div className="flex items-center gap-3">
-                  <Clock className="w-5 h-5 text-green-500" />
-                  <span className="text-gray-300">Avg. Read Time</span>
-                </div>
-                <span className="text-white font-medium">2.5 mins</span>
-              </div>
-              <div className="flex items-center justify-between p-4 bg-gray-800 rounded-lg">
-                <div className="flex items-center gap-3">
-                  <AlertTriangle className="w-5 h-5 text-yellow-500" />
-                  <span className="text-gray-300">Failed Deliveries</span>
-                </div>
-                <span className="text-white font-medium">12</span>
-              </div>
-            </div>
-          </div>
+        {/* Revenue Chart */}
+        <div className="bg-gray-900 rounded-xl p-6 border border-gray-800">
+          <h3 className="text-xl font-semibold text-white mb-6">Revenue</h3>
+          <ResponsiveContainer width="100%" height={300}>
+            <LineChart data={revenueData}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+              <XAxis dataKey="name" stroke="#9CA3AF" />
+              <YAxis stroke="#9CA3AF" />
+              <Tooltip 
+                contentStyle={{ backgroundColor: '#1F2937', borderColor: '#374151', borderRadius: '0.5rem' }}
+                itemStyle={{ color: '#F9FAFB' }}
+                labelStyle={{ color: '#F9FAFB' }}
+              />
+              <Legend />
+              <Line type="monotone" dataKey="revenue" stroke="#10B981" strokeWidth={2} dot={{ r: 4 }} />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
 
-          <div className="bg-gray-900 rounded-xl border border-gray-800 p-6">
-            <h3 className="text-lg font-semibold mb-4">Recent Broadcasts</h3>
-            <div className="space-y-4">
-              {recentBroadcasts.map((broadcast) => (
-                <div
-                  key={broadcast.id}
-                  className="p-4 bg-gray-800 rounded-lg space-y-2"
-                >
-                  <div className="flex justify-between items-start">
-                    <h4 className="font-medium text-white">{broadcast.title}</h4>
-                    <span className={`px-2 py-1 rounded-full text-xs ${
-                      broadcast.priority === 'high'
-                        ? 'bg-red-500/20 text-red-500'
-                        : broadcast.priority === 'urgent'
-                          ? 'bg-yellow-500/20 text-yellow-500'
-                          : 'bg-blue-500/20 text-blue-500'
-                    }`}>
-                      {broadcast.priority}
-                    </span>
-                  </div>
-                  <p className="text-sm text-gray-400">{broadcast.message}</p>
-                  <div className="flex justify-between items-center text-xs text-gray-500">
-                    <span>Delivered to {broadcast.deliveredTo} users</span>
-                    <span>{new Date(broadcast.timestamp).toLocaleString()}</span>
-                  </div>
+      {/* Additional Charts and Tables */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Plan Distribution */}
+        <div className="bg-gray-900 rounded-xl p-6 border border-gray-800">
+          <h3 className="text-xl font-semibold text-white mb-6">Plan Distribution</h3>
+          <ResponsiveContainer width="100%" height={300}>
+            <PieChart>
+              <Pie
+                data={planDistributionData}
+                cx="50%"
+                cy="50%"
+                labelLine={false}
+                outerRadius={80}
+                fill="#8884d8"
+                dataKey="value"
+                label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+              >
+                {planDistributionData.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                ))}
+              </Pie>
+              <Tooltip 
+                contentStyle={{ backgroundColor: '#1F2937', borderColor: '#374151', borderRadius: '0.5rem' }}
+                itemStyle={{ color: '#F9FAFB' }}
+                labelStyle={{ color: '#F9FAFB' }}
+              />
+            </PieChart>
+          </ResponsiveContainer>
+        </div>
+
+        {/* Recent Activities */}
+        <div className="bg-gray-900 rounded-xl p-6 border border-gray-800 lg:col-span-2">
+          <h3 className="text-xl font-semibold text-white mb-6">Recent Activities</h3>
+          <div className="space-y-4">
+            {[1, 2, 3, 4, 5].map((item) => (
+              <div key={item} className="flex items-start gap-4 p-3 rounded-lg hover:bg-gray-800">
+                <div className="p-2 bg-gray-800 rounded-lg">
+                  <Calendar className="w-5 h-5 text-green-500" />
                 </div>
-              ))}
-            </div>
+                <div>
+                  <p className="text-white font-medium">New user registered</p>
+                  <p className="text-gray-400 text-sm">User ID: #12345{item}</p>
+                  <p className="text-gray-500 text-xs mt-1">2 hours ago</p>
+                </div>
+              </div>
+            ))}
           </div>
+          <button className="mt-4 w-full py-2 text-green-500 hover:text-green-400 transition-colors">
+            View All Activities
+          </button>
         </div>
       </div>
     </div>
