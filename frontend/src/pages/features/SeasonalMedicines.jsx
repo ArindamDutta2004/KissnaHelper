@@ -49,6 +49,8 @@ export default function SeasonalMedicines() {
     }, 1500);
   };
 
+  const inputClasses = "w-full rounded-md bg-gray-800 border-gray-700 text-white text-base py-3 px-4 focus:border-green-500 focus:ring-green-500";
+
   return (
     <div className="relative min-h-screen">
       <div className="absolute inset-0 z-0">
@@ -90,7 +92,7 @@ export default function SeasonalMedicines() {
                   value={formData.plantName}
                   onChange={(e) => setFormData({ ...formData, plantName: e.target.value })}
                   placeholder="Enter plant name"
-                  className="w-full rounded-md bg-gray-800 border-gray-700 text-white focus:border-green-500 focus:ring-green-500"
+                  className={inputClasses}
                   required
                 />
               </div>
@@ -104,7 +106,7 @@ export default function SeasonalMedicines() {
                   type="date"
                   value={formData.plantingDate}
                   onChange={(e) => setFormData({ ...formData, plantingDate: e.target.value })}
-                  className="w-full rounded-md bg-gray-800 border-gray-700 text-white focus:border-green-500 focus:ring-green-500"
+                  className={inputClasses}
                   required
                 />
               </div>
@@ -117,7 +119,7 @@ export default function SeasonalMedicines() {
                 <select
                   value={formData.season}
                   onChange={(e) => setFormData({ ...formData, season: e.target.value })}
-                  className="w-full rounded-md bg-gray-800 border-gray-700 text-white focus:border-green-500 focus:ring-green-500"
+                  className={inputClasses}
                 >
                   <option value="spring">Spring</option>
                   <option value="summer">Summer</option>
@@ -136,7 +138,7 @@ export default function SeasonalMedicines() {
                   value={formData.soilType}
                   onChange={(e) => setFormData({ ...formData, soilType: e.target.value })}
                   placeholder="e.g., Clay, Sandy, Loam"
-                  className="w-full rounded-md bg-gray-800 border-gray-700 text-white focus:border-green-500 focus:ring-green-500"
+                  className={inputClasses}
                   required
                 />
               </div>
@@ -151,7 +153,7 @@ export default function SeasonalMedicines() {
                   value={formData.soilCondition}
                   onChange={(e) => setFormData({ ...formData, soilCondition: e.target.value })}
                   placeholder="e.g., Moist, Dry, Waterlogged"
-                  className="w-full rounded-md bg-gray-800 border-gray-700 text-white focus:border-green-500 focus:ring-green-500"
+                  className={inputClasses}
                   required
                 />
               </div>
@@ -166,7 +168,7 @@ export default function SeasonalMedicines() {
                   value={formData.temperature}
                   onChange={(e) => setFormData({ ...formData, temperature: e.target.value })}
                   placeholder="Enter average temperature"
-                  className="w-full rounded-md bg-gray-800 border-gray-700 text-white focus:border-green-500 focus:ring-green-500"
+                  className={inputClasses}
                   required
                 />
               </div>
@@ -181,7 +183,7 @@ export default function SeasonalMedicines() {
                   value={formData.humidity}
                   onChange={(e) => setFormData({ ...formData, humidity: e.target.value })}
                   placeholder="Enter humidity level"
-                  className="w-full rounded-md bg-gray-800 border-gray-700 text-white focus:border-green-500 focus:ring-green-500"
+                  className={inputClasses}
                   required
                 />
               </div>
@@ -196,7 +198,7 @@ export default function SeasonalMedicines() {
                   value={formData.disease}
                   onChange={(e) => setFormData({ ...formData, disease: e.target.value })}
                   placeholder="Describe the issue"
-                  className="w-full rounded-md bg-gray-800 border-gray-700 text-white focus:border-green-500 focus:ring-green-500"
+                  className={inputClasses}
                 />
               </div>
 
@@ -208,7 +210,7 @@ export default function SeasonalMedicines() {
                 <select
                   value={formData.treatmentType}
                   onChange={(e) => setFormData({ ...formData, treatmentType: e.target.value })}
-                  className="w-full rounded-md bg-gray-800 border-gray-700 text-white focus:border-green-500 focus:ring-green-500"
+                  className={inputClasses}
                 >
                   <option value="both">Both Chemical & Biological</option>
                   <option value="chemical">Chemical Only</option>
@@ -221,7 +223,7 @@ export default function SeasonalMedicines() {
               <button
                 type="submit"
                 disabled={loading}
-                className="px-6 py-3 bg-green-500 text-black rounded-full font-semibold hover:bg-green-600 transition-colors flex items-center gap-2"
+                className="px-6 py-3 bg-green-500 text-black rounded-full font-semibold hover:bg-green-600 transition-colors flex items-center gap-2 text-base"
               >
                 {loading ? (
                   <>
@@ -318,6 +320,6 @@ export default function SeasonalMedicines() {
           )}
         </motion.div>
       </div>
-    </div>
-  );
+ </div>
+);
 }
