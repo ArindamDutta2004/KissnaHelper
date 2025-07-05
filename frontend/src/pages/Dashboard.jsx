@@ -3,6 +3,23 @@ import { useNavigate } from 'react-router-dom';
 import { Plane as Plant, FlaskRound as Flask, Sprout, Calendar, LineChart, Droplets, FileText } from "lucide-react";
 
 const features = [
+  
+  {
+    icon: <Calendar className="w-8 h-8" />,
+    title: "Greenhouse Monitoring",
+    description: "Greenhouse Monitor is an AI-powered system that uses IoT sensors to monitor and control greenhouse conditions. It optimizes temperature, humidity, and light for healthy plant growth, ensuring optimal conditions for crops. 🌱🏡",
+    image: "https://plus.unsplash.com/premium_photo-1663100110235-8e2b33c305a1?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8RGV0YWN0JTIwVGhlJTIwQmVzdCUyMFNvaWwlMjBGb3IlMjBZb3VyJTIwQ3JvcHxlbnwwfHwwfHx8MA%3D%3D",
+    path: "/greenhouse-monitoring"
+  },
+
+  {
+    icon: <Droplets className="w-8 h-8" />,
+    title: "Water Irrigation",
+    description: "SmartIrrigate is an AI-powered system that optimizes water usage through real-time monitoring and automated irrigation. It uses IoT sensors to track soil moisture and weather conditions, ensuring efficient water distribution for healthier crops and sustainable farming. 💧🌱🚜",
+    image: "https://plus.unsplash.com/premium_photo-1661845609789-635c5e35c4ba?w=600&auto=format&fit=crop&q=60",
+    path: "/irrigation"
+  },
+
   {
     icon: <Plant className="w-8 h-8" />,
     title: "LeafScan Disease Detector",
@@ -10,13 +27,13 @@ const features = [
     path: "/disease-detection",
     image: "https://images.unsplash.com/photo-1602574759761-d0d9b471495a?w=600&auto=format&fit=crop&q=60",
   },
-  {
-    icon: <Flask className="w-8 h-8" />,
-    title: "NPK Analyzer",
-    description: "NPK Analyzer is an AI-powered system that uses IoT sensors to analyze soil nutrients (Nitrogen, Phosphorus, and Potassium) in real-time. It helps farmers optimize fertilization for healthier crops and higher yields. 🌱📡📊",
-    image: "https://media.istockphoto.com/id/1842964949/photo/soil-background-with-npk-letter-digital-nutrients-icon-which-necessary-in-plant-life.webp?a=1&b=1&s=612x612&w=0&k=20&c=XRMBJRFrFYBGjfzmPCwaKIJfhJi4OIIkJfMejVj7Wtk=",
-    path: "/npk-analysis"
-  },
+  // {
+  //   icon: <Flask className="w-8 h-8" />,
+  //   title: "NPK Analyzer",
+  //   description: "NPK Analyzer is an AI-powered system that uses IoT sensors to analyze soil nutrients (Nitrogen, Phosphorus, and Potassium) in real-time. It helps farmers optimize fertilization for healthier crops and higher yields. 🌱📡📊",
+  //   image: "https://media.istockphoto.com/id/1842964949/photo/soil-background-with-npk-letter-digital-nutrients-icon-which-necessary-in-plant-life.webp?a=1&b=1&s=612x612&w=0&k=20&c=XRMBJRFrFYBGjfzmPCwaKIJfhJi4OIIkJfMejVj7Wtk=",
+  //   path: "/npk-analysis"
+  // },
   {
     icon: <Sprout className="w-8 h-8" />,
     title: "Soil Preparation & Seed Selection",
@@ -32,13 +49,13 @@ const features = [
     path: "/seasonal-medicines"
   },
 
-  {
-    icon: <Calendar className="w-8 h-8" />,
-    title: "Detact The Best Soil For Your Crop",
-    description: "SoilCrop is a smart system that detects soil type and recommends the best crops for optimal farming. Using AI and IoT, it helps farmers make informed decisions to improve yield and soil health. 🌱🚜",
-    image: "https://plus.unsplash.com/premium_photo-1663100110235-8e2b33c305a1?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8RGV0YWN0JTIwVGhlJTIwQmVzdCUyMFNvaWwlMjBGb3IlMjBZb3VyJTIwQ3JvcHxlbnwwfHwwfHx8MA%3D%3D",
-    path: "/detect-soil"
-  },
+  // {
+  //   icon: <Calendar className="w-8 h-8" />,
+  //   title: "Detact The Best Soil For Your Crop",
+  //   description: "SoilCrop is a smart system that detects soil type and recommends the best crops for optimal farming. Using AI and IoT, it helps farmers make informed decisions to improve yield and soil health. 🌱🚜",
+  //   image: "https://plus.unsplash.com/premium_photo-1663100110235-8e2b33c305a1?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8RGV0YWN0JTIwVGhlJTIwQmVzdCUyMFNvaWwlMjBGb3IlMjBZb3VyJTIwQ3JvcHxlbnwwfHwwfHx8MA%3D%3D",
+  //   path: "/detect-soil"
+  // },
   {
     icon: <Calendar className="w-8 h-8" />,
     title: "Crop Yield Prediction",
@@ -53,13 +70,7 @@ const features = [
     path: "/track-growth",
     image: "https://media.istockphoto.com/id/1321636150/photo/tree-growth-in-nature-and-beautiful-morning.webp?a=1&b=1&s=612x612&w=0&k=20&c=IoN0RujW-jL7acsInwuXXc86OCPDr2XrhoivbvHKTVs=",
   },
-  {
-    icon: <Droplets className="w-8 h-8" />,
-    title: "Water Irrigation",
-    description: "SmartIrrigate is an AI-powered system that optimizes water usage through real-time monitoring and automated irrigation. It uses IoT sensors to track soil moisture and weather conditions, ensuring efficient water distribution for healthier crops and sustainable farming. 💧🌱🚜",
-    image: "https://plus.unsplash.com/premium_photo-1661845609789-635c5e35c4ba?w=600&auto=format&fit=crop&q=60",
-    path: "/irrigation"
-  },
+
   {
     icon: <FileText className="w-8 h-8" />,
     title: "Government Policies",
