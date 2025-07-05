@@ -9,7 +9,6 @@ import {
 } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { ToastContainer } from "react-toastify";
-import { Analytics } from '@vercel/analytics/react';
 import "react-toastify/dist/ReactToastify.css";
 
 // Components
