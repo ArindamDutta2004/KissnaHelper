@@ -1,16 +1,16 @@
 import { useState } from 'react';
 import { Outlet, NavLink, useNavigate } from 'react-router-dom';
-import { 
-  LayoutDashboard, 
-  Users, 
-  FileText, 
-  CreditCard, 
-  Settings, 
-  AlertTriangle, 
-  LogOut, 
-  Menu, 
-  X, 
-  Plane as Plant 
+import {
+  LayoutDashboard,
+  Users,
+  FileText,
+  CreditCard,
+  Settings,
+  AlertTriangle,
+  LogOut,
+  Menu,
+  X,
+  Plane as Plant,
 } from 'lucide-react';
 
 export default function AdminLayout() {
@@ -21,14 +21,14 @@ export default function AdminLayout() {
     { path: '/admin', icon: <LayoutDashboard size={20} />, label: 'Dashboard' },
     { path: '/admin/users', icon: <Users size={20} />, label: 'Users' },
     { path: '/admin/policies', icon: <FileText size={20} />, label: 'Policies' },
+    { path: '/admin/broadcast', icon: <Plant size={20} />, label: 'Broadcast' },
+    { path: '/admin/shipment', icon: <Plant size={20} />, label: 'Shipment' },
     { path: '/admin/payments', icon: <CreditCard size={20} />, label: 'Payments' },
     { path: '/admin/settings', icon: <Settings size={20} />, label: 'Settings' },
     { path: '/admin/maintenance', icon: <AlertTriangle size={20} />, label: 'Maintenance Mode' },
   ];
 
   const handleLogout = () => {
-    // In a real app, you would implement proper logout logic here
-    // For now, just navigate to the home page
     navigate('/');
   };
 
@@ -81,7 +81,7 @@ export default function AdminLayout() {
             </ul>
           </nav>
 
-          {/* Logout button */}
+          {/* Logout */}
           <div className="p-4 border-t border-gray-800">
             <button
               onClick={handleLogout}
@@ -94,7 +94,7 @@ export default function AdminLayout() {
         </div>
       </aside>
 
-      {/* Main content */}
+      {/* Main Content */}
       <div className={`flex-1 transition-all duration-300 ${sidebarOpen ? 'lg:ml-64' : 'ml-0'}`}>
         <main className="min-h-screen p-6">
           <Outlet />
