@@ -1,11 +1,62 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import {
+  auth,
+  googleProvider,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signInWithPopup
+} from './firebase';
 
 export default function Auth() {
   const [isLogin, setIsLogin] = useState(true);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
+  const [error, setError] = useState('');
+
+  const navigate = useNavigate();
 
   const handleGoogleLogin = async () => {
-    console.log("Google login clicked");
+    try {
+      await signInWithPopup(auth, googleProvider);
+      toast.success("Successfully Logged in");
+      setTimeout(() => {
+        navigate('/home');
+      }, 500);
+    } catch (error) {
+      console.error(error.message);
+      toast.error(error.message);
+      setError(error.message);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+
+    try {
+      if (isLogin) {
+        await signInWithEmailAndPassword(auth, email, password);
+        toast.success("Login Successful");
+        setTimeout(() => {
+          navigate('/home');
+        }, 500);
+      } else {
+        await createUserWithEmailAndPassword(auth, email, password);
+        toast.success("Registration Successful");
+        setTimeout(() => {
+          navigate('/home');
+        }, 500);
+      }
+    } catch (error) {
+      console.error(error.message);
+      setError(error.message);
+      toast.error(error.message);
+    }
   };
 
   return (
@@ -19,13 +70,16 @@ export default function Auth() {
           <h2 className="text-3xl font-bold text-white mb-6 text-center mt-12">
             {isLogin ? "Welcome Back" : "Create Account"}
           </h2>
-          <form className="space-y-4">
+          <form className="space-y-4" onSubmit={handleSubmit}>
             {!isLogin && (
               <div>
                 <label className="text-white block mb-1">Name</label>
                 <input
                   type="text"
+                  placeholder="Enter Your Full Name"
                   className="w-full p-3 rounded bg-gray-800 text-white border border-gray-700 focus:outline-none focus:border-green-500"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                 />
               </div>
             )}
@@ -33,32 +87,23 @@ export default function Auth() {
               <label className="text-white block mb-1">Email</label>
               <input
                 type="email"
+                placeholder="Enter Valid Email Address"
                 className="w-full p-3 rounded bg-gray-800 text-white border border-gray-700 focus:outline-none focus:border-green-500"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
-
-            <div className="mt-4">
-              <label className="text-white block mb-1">Mobile Number</label>
-              <input
-                type="tel"
-                className="w-full p-3 rounded bg-gray-800 text-white border border-gray-700 focus:outline-none focus:border-green-500"
-                pattern="[0-9]{10}"
-                placeholder="Enter your mobile number"
-              />
-            </div>
-
             <div>
               <label className="text-white block mb-1">Password</label>
               <input
                 type="password"
+                placeholder="Enter Password"
                 className="w-full p-3 rounded bg-gray-800 text-white border border-gray-700 focus:outline-none focus:border-green-500"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-            {isLogin && (
-              <div className="text-right">
-                <button className="text-green-500 hover:underline text-sm">Forgot Password?</button>
-              </div>
-            )}
+            {error && <p className="text-red-500 text-center">{error}</p>}
             <button className="w-full bg-green-500 text-black p-3 rounded font-bold hover:bg-green-600 transition-all">
               {isLogin ? "Login" : "Register"}
             </button>
@@ -71,7 +116,7 @@ export default function Auth() {
               onClick={handleGoogleLogin}
             >
               <svg className="mr-2 h-5 w-5" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="google" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512">
-                <path fill="currentColor" d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z" />
+                <path fill="currentColor" d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"/>
               </svg>
               Continue with Google
             </button>
