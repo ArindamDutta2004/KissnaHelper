@@ -1,4 +1,3 @@
-// App.jsx
 import React, { Suspense, lazy } from "react";
 import {
   BrowserRouter as Router,
@@ -200,7 +199,6 @@ export default function App() {
     <Router>
       <AppRoutes />
       <ToastContainer position="top-center" autoClose={3000} />
-      <Analytics /> {/* ✅ Injected Vercel Analytics */}
     </Router>
   );
 }
