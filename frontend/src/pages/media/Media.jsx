@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { Routes, Route, Link, useLocation } from 'react-router-dom';
-import { Play, Image as ImageIcon, FileText, Download, Home, Video, Users, MessageCircle, Bell, FolderOpen, Upload, X } from 'lucide-react';
+import {
+  Play, Image as ImageIcon, FileText, Download, Home, Video,
+  Users, MessageCircle, Bell, FolderOpen, Upload, X, Menu
+} from 'lucide-react';
 import Feed from './Feed';
 import Tutorials from './Tutorials';
 import Community from './Community';
@@ -8,6 +11,7 @@ import Notifications from './Notifications';
 
 function Media() {
   const location = useLocation();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
 
@@ -67,7 +71,6 @@ function Media() {
   };
 
   const handleUpload = () => {
-    // Handle file upload logic here
     console.log('Uploading file:', selectedFile);
     setIsUploadModalOpen(false);
     setSelectedFile(null);
@@ -75,12 +78,23 @@ function Media() {
 
   return (
     <div className="fixed inset-0 bg-gray-900 z-50 overflow-hidden flex">
-      {/* Sidebar Navigation */}
-      <div className="w-64 bg-gray-800 p-4">
-        <div className="flex items-center space-x-2 mb-8">
+
+      {/* Sidebar */}
+      <div
+        className={`fixed top-0 left-0 h-full w-64 bg-gray-800 p-4 transform transition-transform duration-300 z-40 ${
+          isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        } md:relative md:translate-x-0`}
+      >
+        {/* Clickable header */}
+        <Link
+          to="/media"
+          className="flex items-center space-x-2 mb-8 cursor-pointer"
+          onClick={() => setIsSidebarOpen(false)}
+        >
           <FolderOpen className="h-8 w-8 text-green-400" />
           <span className="text-xl font-bold text-white">Media Dashboard</span>
-        </div>
+        </Link>
+
         <nav className="space-y-2">
           {navLinks.map((link) => {
             const isActive = location.pathname === link.path;
@@ -89,10 +103,11 @@ function Media() {
                 key={link.path}
                 to={link.path}
                 className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors duration-200 ${
-                  isActive
-                    ? 'bg-green-600 text-white'
-                    : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+                  isActive ? 'bg-green-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'
                 }`}
+                onClick={() => {
+                  if (window.innerWidth < 768) setIsSidebarOpen(false);
+                }}
               >
                 <link.icon className="h-5 w-5" />
                 <span>{link.label}</span>
@@ -102,8 +117,24 @@ function Media() {
         </nav>
       </div>
 
-      {/* Main Content Area */}
-      <div className="flex-1 overflow-y-auto">
+      {/* Overlay for mobile sidebar */}
+      {isSidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-30 z-30 md:hidden"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
+
+      {/* Main Content */}
+      <div className="flex-1 overflow-y-auto md:ml-30">
+        {/* Mobile Toggle Button */}
+        <div className="md:hidden flex items-center justify-between p-4 bg-gray-800">
+          <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="text-white">
+            <Menu className="h-6 w-6" />
+          </button>
+          <h2 className="text-xl text-white font-bold">Media</h2>
+        </div>
+
         <Routes>
           <Route
             index
@@ -111,7 +142,7 @@ function Media() {
               <div className="max-w-7xl mx-auto p-6">
                 <div className="flex justify-between items-center mb-6">
                   <h2 className="text-2xl font-bold text-white">Media Library</h2>
-                  <button 
+                  <button
                     onClick={() => setIsUploadModalOpen(true)}
                     className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors duration-200 flex items-center space-x-2"
                   >
@@ -152,11 +183,14 @@ function Media() {
           <Route path="/tutorials" element={<Tutorials />} />
           <Route path="/community" element={<Community />} />
           <Route path="/notifications" element={<Notifications />} />
-          <Route path="/messages" element={
-            <div className="p-6">
-              <h2 className="text-2xl font-bold text-white">Messages</h2>
-            </div>
-          } />
+          <Route
+            path="/messages"
+            element={
+              <div className="p-6">
+                <h2 className="text-2xl font-bold text-white">Messages</h2>
+              </div>
+            }
+          />
         </Routes>
       </div>
 
@@ -173,7 +207,6 @@ function Media() {
                 <X className="h-6 w-6" />
               </button>
             </div>
-            
             <div className="space-y-4">
               <div className="relative border-2 border-dashed border-gray-600 rounded-lg p-8 text-center hover:border-green-500 transition-colors duration-200">
                 <input
@@ -185,11 +218,8 @@ function Media() {
                 <p className="text-gray-300 mb-2">
                   {selectedFile ? selectedFile.name : 'Drag and drop your files here'}
                 </p>
-                <p className="text-sm text-gray-400">
-                  or click to browse (max 100MB)
-                </p>
+                <p className="text-sm text-gray-400">or click to browse (max 100MB)</p>
               </div>
-
               <div className="flex justify-end space-x-4">
                 <button
                   onClick={() => setIsUploadModalOpen(false)}
@@ -201,9 +231,7 @@ function Media() {
                   onClick={handleUpload}
                   disabled={!selectedFile}
                   className={`px-6 py-2 rounded-lg transition-colors duration-200 ${
-                    selectedFile
-                      ? 'bg-green-600 hover:bg-green-700 text-white'
-                      : 'bg-gray-600 cursor-not-allowed text-gray-300'
+                    selectedFile ? 'bg-green-600 hover:bg-green-700 text-white' : 'bg-gray-600 cursor-not-allowed text-gray-300'
                   }`}
                 >
                   Upload
