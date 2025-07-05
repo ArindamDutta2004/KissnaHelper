@@ -1,14 +1,12 @@
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useInView } from "react-intersection-observer";
-import { Leaf, Sun, Cloud, Droplets } from "lucide-react";
+import { Leaf, Sun, Cloud } from "lucide-react";
+import { auth } from "../pages/firebase"; // ✅ Import initialized Firebase auth
 
 export default function Home() {
   const navigate = useNavigate();
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
+  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
 
   const cardVariants = {
     hidden: { opacity: 0, y: 50 },
@@ -19,26 +17,20 @@ export default function Home() {
     {
       title: "Sustainable Farming",
       icon: <Leaf className="h-8 w-8 text-green-500" />,
-      description:
-        "Learn about eco-friendly farming practices that help preserve our environment.",
-      image:
-        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=2070&auto=format&fit=crop",
+      description: "Learn about eco-friendly farming practices that help preserve our environment.",
+      image: "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=2070&auto=format&fit=crop",
     },
     {
       title: "Weather Insights",
       icon: <Sun className="h-8 w-8 text-yellow-500" />,
-      description:
-        "Get real-time weather updates and forecasts for better crop planning.",
-      image:
-        "https://images.unsplash.com/photo-1660319106724-e2af3353c650?q=80&w=2070&auto=format&fit=crop",
+      description: "Get real-time weather updates and forecasts for better crop planning.",
+      image: "https://images.unsplash.com/photo-1660319106724-e2af3353c650?q=80&w=2070&auto=format&fit=crop",
     },
     {
       title: "Crop Management",
       icon: <Cloud className="h-8 w-8 text-blue-500" />,
-      description:
-        "Expert tips on crop rotation, pest control, and yield optimization.",
-      image:
-        "https://plus.unsplash.com/premium_photo-1661963792535-4e91ddccdfb0?q=80&w=2114&auto=format&fit=crop",
+      description: "Expert tips on crop rotation, pest control, and yield optimization.",
+      image: "https://plus.unsplash.com/premium_photo-1661963792535-4e91ddccdfb0?q=80&w=2114&auto=format&fit=crop",
     },
   ];
 
@@ -53,18 +45,14 @@ export default function Home() {
     {
       name: "XYZ",
       location: "Punjab",
-      quote:
-        "KissanHelper has transformed how I manage my farm. The insights are invaluable.",
-      image:
-        " ",
+      quote: "KissanHelper has transformed how I manage my farm. The insights are invaluable.",
+      image: " ",
     },
     {
       name: "ABCD",
       location: "Gujarat",
-      quote:
-        "The soil analysis feature helped me increase my crop yield by 40%.",
-      image:
-        " ",
+      quote: "The soil analysis feature helped me increase my crop yield by 40%.",
+      image: " ",
     },
   ];
 
@@ -101,14 +89,18 @@ export default function Home() {
             transition={{ delay: 0.6 }}
           >
             <button
-              onClick={() => navigate("/dashboard")}
+              onClick={() => {
+                const user = auth.currentUser;
+                navigate(user ? "/dashboard" : "/auth");
+              }}
               className="bg-green-500 text-black px-8 py-3 rounded-full text-lg font-bold hover:bg-green-600 transition-all mr-4"
             >
               Get Started
             </button>
+
             <button
               onClick={() => navigate("/media")}
-              className="border-2 border-green-500 text-green-500 px-8 py-3 rounded-full text-lg font-bold hover:bg-green-500 hover:text-black transition-all"
+              className="border-2 border-green-500 text-green-500 px-8 py-3 rounded-full text-lg font-bold hover:bg-green-500 hover:text-black transition-all mt-3"
             >
               Kissan Media
             </button>
@@ -137,17 +129,11 @@ export default function Home() {
               transition={{ duration: 0.5, delay: index * 0.2 }}
               className="bg-gray-900 rounded-lg overflow-hidden hover:scale-105 transition-transform duration-300"
             >
-              <img
-                src={card.image}
-                alt={card.title}
-                className="w-full h-48 object-cover"
-              />
+              <img src={card.image} alt={card.title} className="w-full h-48 object-cover" />
               <div className="p-6">
                 <div className="flex items-center mb-4">
                   {card.icon}
-                  <h3 className="text-xl font-semibold text-white ml-2">
-                    {card.title}
-                  </h3>
+                  <h3 className="text-xl font-semibold text-white ml-2">{card.title}</h3>
                 </div>
                 <p className="text-gray-400">{card.description}</p>
               </div>
@@ -155,14 +141,11 @@ export default function Home() {
           ))}
         </div>
       </div>
+
       {/* Stats Section */}
       <div className="bg-gray-900 py-16">
-        <h2 className="text-4xl font-bold text-center text-white mb-3">
-          Our Achievements
-        </h2>
-        <p className="text-gray-400 text-center">
-          A look at what we have accomplished so far
-        </p>
+        <h2 className="text-4xl font-bold text-center text-white mb-3">Our Achievements</h2>
+        <p className="text-gray-400 text-center">A look at what we have accomplished so far</p>
         <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 px-4 mt-10">
           {stats.map((stat, index) => (
             <motion.div
@@ -172,21 +155,17 @@ export default function Home() {
               transition={{ delay: index * 0.2 }}
               className="bg-gray-800 p-8 rounded-lg text-center"
             >
-              <div className="text-4xl font-bold text-green-500 mb-2">
-                {stat.number}
-              </div>
+              <div className="text-4xl font-bold text-green-500 mb-2">{stat.number}</div>
               <div className="text-gray-400">{stat.label}</div>
             </motion.div>
           ))}
         </div>
       </div>
+
+      {/* Testimonials Section */}
       <div className="bg-black-800 py-16">
-        <h2 className="text-4xl font-bold text-center text-white mb-3">
-          What Farmers Say
-        </h2>
-        <p className="text-gray-400 text-center">
-          Real success stories from farmers using KissanHelper
-        </p>
+        <h2 className="text-4xl font-bold text-center text-white mb-3">What Farmers Say</h2>
+        <p className="text-gray-400 text-center">Real success stories from farmers using KissanHelper</p>
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 px-4 mt-10">
           {testimonials.map((testimonial, index) => (
             <motion.div
@@ -215,18 +194,15 @@ export default function Home() {
 
       {/* Call to Action */}
       <div className="bg-gradient-to-r from-green-900 to-green-700 py-16 text-center">
-        <h2 className="text-4xl font-bold text-white mb-8">
-          Join Our Farming Community
-        </h2>
+        <h2 className="text-4xl font-bold text-white mb-8">Join Our Farming Community</h2>
         <p className="text-xl text-gray-200 mb-8">
           Connect with experts and fellow farmers to share knowledge and grow together.
         </p>
-
         <motion.button
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8 }}
-          onClick={() => navigate('/join')}
+          onClick={() => navigate("/join")}
           className="border-2 border-black-500 text-black-500 px-8 py-3 rounded-full text-lg font-bold hover:bg-green-500 hover:text-black transition-all"
         >
           Join Now
