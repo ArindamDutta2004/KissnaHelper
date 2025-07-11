@@ -3,13 +3,13 @@ import { getAuth, GoogleAuthProvider, createUserWithEmailAndPassword, signInWith
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyDFBwyMVMOgimPT9dMln49SeuFggRbUbbs",
-    authDomain: "kissanhelper-bcb48.firebaseapp.com",
-    projectId: "kissanhelper-bcb48",
-    storageBucket: "kissanhelper-bcb48.firebasestorage.app",
-    messagingSenderId: "314170073513",
-    appId: "1:314170073513:web:963d70ef965f6383f664b8",
-    measurementId: "G-KMGLF2CEF0"
+  apiKey: "AIzaSyC63gQ0iP2KQ8asQ3RJKTNMn7UMPQZtUFY",
+  authDomain: "kissan-helper.firebaseapp.com",
+  projectId: "kissan-helper",
+  storageBucket: "kissan-helper.firebasestorage.app",
+  messagingSenderId: "99150082854",
+  appId: "1:99150082854:web:a11ee307b429d3b6e887e7",
+  measurementId: "G-S92CZ2S2XC"
 };
 
 // Initialize Firebase
